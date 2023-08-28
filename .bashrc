@@ -132,7 +132,12 @@ alias vim="nvim"
 alias db="distrobox"
 alias v="nvim"
 
-GIT_PROMPT=true
+# Define the function to get the git branch
+function parse_git_branch() {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
 
+# Define the PS1 variable with the desired prompt format
+PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(parse_git_branch)\$ '
 
-source ~/.config/bash/xela.bash
+# Rest of your .bashrc file...
