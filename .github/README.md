@@ -15,5 +15,5 @@ Warning : You might need to Backup current files or remove them to checkout the 
 
 ## To do
 
-- [] Remove tmux and use kitty
-- [] remove fish?
+- [ ] Remove tmux and use kitty
+- [ ] remove fish?
