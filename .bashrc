@@ -131,3 +131,8 @@ alias md="mkdir"
 alias vim="nvim"
 alias db="distrobox"
 alias v="nvim"
+
+GIT_PROMPT=true
+
+
+source ~/.config/bash/xela.bash
