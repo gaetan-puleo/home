@@ -131,6 +131,8 @@ alias md="mkdir"
 alias vim="nvim"
 alias db="distrobox"
 alias v="nvim"
+alias z="j"
+
 
 # Define the function to get the git branch
 function parse_git_branch() {
@@ -141,3 +143,19 @@ function parse_git_branch() {
 PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(parse_git_branch)\$ '
 
 # Rest of your .bashrc file...
+
+
+# autojump
+. /usr/share/autojump/autojump.sh
+
+
+todo-add() {
+    echo "$(date +'%d-%m-%Y') : $1" >> $HOME/todo.txt
+    echo "Task added successfully!"
+}
+
+alias todo-add=todo-add
+alias todo="cat $HOME/todo.txt"
+alias todo-clear="rm $HOME/todo.txt && touch $HOME/todo.txt"
+alias todo-next="tail -n 1 $HOME/todo.txt"
+alias todo-edit="nvim $HOME/todo.txt"
