@@ -157,5 +157,5 @@ todo-add() {
 alias todo-add=todo-add
 alias todo="cat $HOME/todo.txt"
 alias todo-clear="rm $HOME/todo.txt && touch $HOME/todo.txt"
-alias todo-next="tail -n 1 $HOME/todo.txt"
+alias todo-next="head -1 $HOME/todo.txt"
 alias todo-edit="nvim $HOME/todo.txt"

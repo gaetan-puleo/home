@@ -3,7 +3,7 @@ vim.opt.runtimepath:append("$HOME/.local/share/treesitter")
 
 require'nvim-treesitter.configs'.setup {
   parser_install_dir = "$HOME/.local/share/treesitter",
-  ensure_installed = {"typescript"} ,
+  ensure_installed = "all" ,
   -- sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
   autotag = {
 		enable = true

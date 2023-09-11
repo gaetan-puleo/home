@@ -8,13 +8,79 @@ require("lazy").setup({
     -- Git column signs and git blame
     require('plugins/gitsigns-nvim'),
 
-    --Theme
-    {
-        'folke/tokyonight.nvim',
-        config = function () require('plugins/tokyonight-nvim') end
+    -- --Theme
+    -- {
+    --     'folke/tokyonight.nvim',
+    --     config = function () require('plugins/tokyonight-nvim') end
+    -- },
+
+    -- Theme
+    { "catppuccin/nvim",
+      name = "catppuccin",
+      priority = 1000,
+      config = function ()
+      vim.cmd.colorscheme 'catppuccin'
+
+
+      require("catppuccin").setup({
+        term_colors = true,
+        transparent_background = false,
+        styles = {
+          comments = {},
+          conditionals = {},
+          loops = {},
+          functions = {},
+          keywords = {},
+          strings = {},
+          variables = {},
+          numbers = {},
+          booleans = {},
+          properties = {},
+          types = {},
+        },
+
+          flavour = "mocha", -- latte, frappe, macchiato, mocha
+        })
+        -- catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
+      end
     },
+    -- {
+    --     'aktersnurra/no-clown-fiesta.nvim',
+    --     config = function ()
+
+    --     vim.cmd[[colorscheme no-clown-fiesta]]
+    --       require("no-clown-fiesta").setup({
+    --         transparent = false, -- Enable this to disable the bg color
+    --         styles = {
+    --           -- You can set any of the style values specified for `:h nvim_set_hl`
+    --           comments = {},
+    --           keywords = {},
+    --           functions = {},
+    --           variables = {},
+    --           type = { bold = true },
+    --           lsp = { underline = true }
+    --         },
+    --       })
+    --     end
+    -- },
+
+
     -- buffer tabs
-    require('plugins/bufferline-nvim'),
+    -- require('plugins/bufferline-nvim'),
+
+    { 'echasnovski/mini.nvim', version = '*',
+      config = function() require('mini.tabline').setup() end
+    },
+
+
+    { 'nocksock/do.nvim',
+      config = function()
+        require('do').setup({
+          winbar = true
+        })
+      end
+    },
+
 
     -- dashboard
     require('plugins/mini-starter'),
@@ -101,91 +167,9 @@ require("lazy").setup({
           "williamboman/mason-lspconfig.nvim",
           "neovim/nvim-lspconfig",
           'WhoIsSethDaniel/mason-tool-installer.nvim',
-
-
-          -- DAP
-          'mfussenegger/nvim-dap',
-          "jay-babu/mason-nvim-dap.nvim",
-          "rcarriga/nvim-dap-ui",
-          'mxsdev/nvim-dap-vscode-js',
-          {"microsoft/vscode-js-debug", build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out" },
-
         },
         config = function()
-          local map = vim.api.nvim_set_keymap
-          local dap = require("dap")
-
-          vim.keymap.set('n', '<leader>do', "<Cmd>lua require('dapui').open() <CR>", { desc = '[D]ebugger [o]pen' })
-          vim.keymap.set('n', '<leader>dq', "<Cmd>lua require('dapui').close() <CR>", { desc = '[D]ebugger [q]uit' })
-          vim.keymap.set('n', '<leader>dt', "<Cmd>lua require('dapui').toggle() <CR>", { desc = '[D]ebugger [t]oggle' })
-
-          vim.keymap.set('n', '<F5>', require 'dap'.continue)
-          vim.keymap.set('n', '<F10>', require 'dap'.step_over)
-          vim.keymap.set('n', '<F11>', require 'dap'.step_into)
-          vim.keymap.set('n', '<F12>', require 'dap'.step_out)
-          vim.keymap.set('n', '<leader>db', require 'dap'.toggle_breakpoint)
-
           require('plugins/lsp/mason-nvim')
-          require("dapui").setup()
-
-          --require("mfussenegger/nvim-dap")
-          require("mason-nvim-dap").setup({
-            ensure_installed = { 'js' },
-            handlers = {}, -- sets up dap in the predefined manner
-          })
-
-          require("dap-vscode-js").setup({
-            -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
-            debugger_path = vim.fn.stdpath('data') .. "/lazy/vscode-js-debug", -- Path to vscode-js-debug installation.
-            --debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
-            adapters = { 'chrome', 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost', 'node', 'chrome' }, -- which adapters to register in nvim-dap
-            -- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
-            -- log_file_level = false -- Logging level for output to file. Set to false to disable file logging.
-            -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
-          })
-
-          for _, language in ipairs({ "typescript", "javascript", 'javascriptreact', "typescriptreact" }) do
-            require("dap").configurations[language] = {
-                {
-                  type = "pwa-node",
-                  request = "launch",
-                  name = "Launch file",
-                  program = "${file}",
-                  cwd = "${workspaceFolder}",
-                },
-                {
-                  type = "pwa-node",
-                  request = "attach",
-                  name = "Attach",
-                  processId = require'dap.utils'.pick_process,
-                  cwd = "${workspaceFolder}",
-                },
-                {
-                  type = "pwa-node",
-                  request = "launch",
-                  name = "Debug Jest Tests",
-                  -- trace = true, -- include debugger info
-                  runtimeExecutable = "node",
-                  runtimeArgs = {
-                    "./node_modules/jest/bin/jest.js",
-                    "--runInBand",
-                  },
-                  rootPath = "${workspaceFolder}",
-                  cwd = "${workspaceFolder}",
-                  console = "integratedTerminal",
-                  internalConsoleOptions = "neverOpen",
-                },
-                {
-                  type = "pwa-chrome",
-                  request = "launch",
-                  name = "Start Chrome with \"localhost\"",
-                  url = "http://localhost:3000",
-                  webRoot = "${workspaceFolder}",
-                  userDataDir = "${workspaceFolder}/.vscode/vscode-chrome-debug-userdatadir"
-                }
-
-            }
-          end
 
         end
     },
@@ -239,7 +223,24 @@ require("lazy").setup({
     -- General pickeer tool
     {'nvim-telescope/telescope.nvim', tag = '0.1.1', dependencies = {'nvim-lua/plenary.nvim'}, config = function() require('plugins/telescope-nvim') end},
 
-    {'christoomey/vim-tmux-navigator', config = function() require('plugins/vim-tmux-navigator') end},
+    -- {'christoomey/vim-tmux-navigator', config = function() require('plugins/vim-tmux-navigator') end},
+
+    { "alexghergh/nvim-tmux-navigation",  config = function()
+
+        local nvim_tmux_nav = require('nvim-tmux-navigation')
+
+        nvim_tmux_nav.setup {
+            disable_when_zoomed = true -- defaults to false
+        }
+
+        vim.keymap.set('n', "<M-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
+        vim.keymap.set('n', "<M-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
+        vim.keymap.set('n', "<M-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
+        vim.keymap.set('n', "<M-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
+        -- vim.keymap.set('n', "<C-\\>", nvim_tmux_nav.NvimTmuxNavigateLastActive)
+        -- vim.keymap.set('n', "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
+
+    end },
 
 
     -- keyboard mapping

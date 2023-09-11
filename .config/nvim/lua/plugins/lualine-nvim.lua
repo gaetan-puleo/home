@@ -56,7 +56,7 @@ return {
     require('lualine').setup {
       -- ... your lualine config
       options = {
-        theme = l,
+        --theme = l,
         globalstatus = true,
         component_separators = { left = '', right = ''},
         section_separators = { left = '', right = ''},
@@ -69,10 +69,12 @@ return {
           {
             'filename',
             path = 1,
+            shorting_target = 5,
             file_status = true, -- displays file status (readonly status, modified status)
+
           }
         },
-        lualine_c = {'branch', 'diff', },
+        lualine_c = {'branch', 'diff'},
         lualine_x = { 'diagnostics','encoding', 'fileformat','filetype'},
         lualine_y = {},
         lualine_z = {'location'}
