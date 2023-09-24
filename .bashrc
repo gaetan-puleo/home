@@ -128,7 +128,7 @@ export REACT_EDITOR=nvim
 alias dot="git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME"
 alias nuke="rm -rf"
 alias md="mkdir"
-alias nvim="nix run github:gaetan-puleo/nvim-flake-test"
+alias nvim="nix run github:gaetan-puleo/nvim"
 alias vim="nvim"
 alias db="distrobox"
 alias v="nvim"
@@ -141,4 +141,4 @@ function parse_git_branch() {
 }
 
 # Define the PS1 variable with the desired prompt format
-PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(parse_git_branch)\$ '
+PS1="\[\033[01;32m\]\u@\$HOSTNAME\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(parse_git_branch)\$ "
