@@ -14,3 +14,6 @@
 	editor = nvim
 [push]
     autoSetupRemote = true
+[user]
+	email = pro@gaetanpuleo.com
+	name = Gaetan Puleo
