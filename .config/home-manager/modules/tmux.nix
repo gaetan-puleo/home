@@ -8,11 +8,17 @@
     shell = "${pkgs.fish}/bin/fish";
     extraConfig = ''
 
-    # remap prefix from 'C-b' to 'C-a'
-    unbind C-a
-    unbind C-b
-    set-option -g prefix None
+    # remove prefix2
     set-option -g prefix2 None
+    set-option -g prefix None
+
+    # set-option -g prefix C-a
+    # Remove the old prefix
+    unbind C-b
+    unbind C-a
+
+    # Send Ctrl+a to applications by pressing it twice
+    bind C-a send-prefix
 
     unbind -n C-h
     unbind -n C-j
@@ -34,14 +40,25 @@
     # set -g terminal-overrides "st-256color:Tc"
     # set-option -ga terminal-overrides ",xterm-256color:Tc"
 
-    set-option -ga terminal-overrides ",*256col*:Tc"
+    # set-option -ga terminal-overrides ",*256col*:Tc"
 
+
+    set-option -g default-terminal 'tmux-256color'
+    set -as terminal-overrides ",xterm*:Tc"
+    # set -g default-terminal "screen-256color"
+
+    # true colours support
+    # set -ga terminal-overrides ",*256col*:Tc"
+    # set -ga terminal-overrides ",xterm-256color:Tc"
+    set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'
+    # underscore colours - needs tmux-3.0
+    set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
     # Undercurl
-    set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'  # undercurl support
-    set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'  # underscore colours - needs tmux-3.0
+    # set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'  # undercurl support
+    # set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'  # underscore colours - needs tmux-3.0
     # set -as terminal-overrides ',xterm*:sitm=\E[3m'
 
-    #set -g default-terminal "screen-256color"
+    # set -g default-terminal "screen-256color"
 
     # Start windows and panes at 1, not 0
     set -g base-index 1
@@ -84,7 +101,7 @@
     # session
     bind -n M-s choose-session
 
-    bind -n M-n new-session # create new session
+    bind -n M-n new-window # create new session
 
     # kill
     bind -n M-q kill-pane
@@ -98,14 +115,18 @@
 
     set -sg escape-time 0
     #abused Easy config reload
-    bind-key -n M-r source-file ~/.tmux.conf \; display-message "tmux.conf reloaded."
-    # bind-key -n M-i run-shell '~/.tmux/plugins/tpm/bin/install_plugins'
 
 
-    if-shell "test -f ~/.config/tmux/theme.conf" "source ~/.config/tmux/theme.conf"
+    set -g @plugin 'tmux-plugins/tpm'
+    set -g @plugin 'tmux-plugins/tmux-resurrect'
+    set -g @plugin 'tmux-plugins/tmux-continuum'
+
+
+    source-file ~/.config/tmux/theme.conf
 
     # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
-    # run '~/.tmux/plugins/tpm/tpm'
+    run '~/.tmux/plugins/tpm/tpm'
+
 
     '';
   };
