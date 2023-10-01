@@ -8,6 +8,9 @@
     mnt = "mount | grep -E ^/dev | column -t";
     # ssh = "kitty +kitten ssh";
     nvim = "nix run github:gaetan-puleo/nvim --";
+    focus = "uair | toilet -f mono9";
+    pause = "uairctl pause";
+    resume = "uairctl resume";
   };
   home.sessionVariables = {
     # JAVA_HOME = "${pkgs.jdk11}";

@@ -38,6 +38,11 @@
     # # environment:
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
+    pkgs.pomodoro
+    pkgs.bottom
+    pkgs.figlet
+    pkgs.toilet
+    pkgs.uair
     # '')
   ];
 
@@ -47,6 +52,7 @@
   home.file.".config/kitty/tokyonight.conf" = { source = config.lib.file.mkOutOfStoreSymlink "/home/gaetan/.config/home-manager/config/kitty/tokyonight.conf"; };
     # ".config/tmux/tmux.conf" = { source = config.lib.file.mkOutOfStoreSymlink "/home/gaetan/.config/home-manager/config/tmux/tmux.conf"; };
   home.file.".config/tmux/theme.conf" = { source = config.lib.file.mkOutOfStoreSymlink "/home/gaetan/.config/home-manager/config/tmux/theme.conf"; };
+  home.file.".config/uair/uair.toml" = { source = config.lib.file.mkOutOfStoreSymlink "/home/gaetan/.config/home-manager/config/uair/uair.toml"; };
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
@@ -77,6 +83,9 @@
     server.enable = true;
     enable = true;
     settings = {
+    csd = {
+      size = 0;
+    };
     main = {
       shell = "${pkgs.fish}/bin/fish";
       include = "${pkgs.foot.themes}/share/foot/themes/tokyonight-night";
