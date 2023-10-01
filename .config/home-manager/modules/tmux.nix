@@ -67,14 +67,20 @@
     bind -n M-z resize-pane -Z
 
     # session
-    bind -n M-s choose-session
+    bind -n M-s choose-window
+    bind -n M-S choose-session
 
     bind -n M-n new-window -c "#{pane_current_path}" # create new session
+    bind -n M-N new-session -c "#{pane_current_path}" # create new session
 
     # kill
     bind -n M-q kill-pane
     bind -n M-Q kill-session
     set -g history-limit 10000
+
+    # detach
+    bind -n M-d detach
+
 
     # Enable mouse integration
     set -g mouse on
@@ -108,6 +114,17 @@
 
         '';
       }
+      # {
+      #   plugin = tmuxPlugins.resurrect;
+      # }
+
+      # {
+      #   plugin = tmuxPlugins.continuum;
+      #   extraConfig = ''
+      #     set -g @continuum-restore 'on'
+      #     set -g @continuum-save-interval '1'
+      #   '';
+      # }
     ];
   };
 }
