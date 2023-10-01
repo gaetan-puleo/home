@@ -84,7 +84,8 @@
     set -sg escape-time 0
     #abused Easy config reload
 
-    bind -n M-r source-file ~/.config/tmux/theme.conf
+    bind -n M-r source-file ~/.config/tmux/tmux.conf
+    source-file ~/.config/tmux/theme.conf
 
     '';
     plugins = with pkgs;  [
